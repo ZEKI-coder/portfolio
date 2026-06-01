@@ -109,9 +109,7 @@
         </div>
         <div class="about-photo reveal">
           <div class="photo-frame">
-            <div class="photo-placeholder">
-              <span>{{ d.name[0] }}{{ d.lastname[0] }}</span>
-            </div>
+            <img src="{{ url_for('static', filename='images/photo.jpeg') }}" alt="Photo de {{ d.name }} {{ d.lastname }}" class="photo-placeholder" />
             <div class="photo-border"></div>
           </div>
         </div>
