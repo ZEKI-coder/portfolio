@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ d.name }} {{ d.lastname }} — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+
+  <div class="cursor-glow" id="cursorGlow"></div>
+  <div class="grid-bg"></div>
+
+  <!-- ── NAV ── -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">&lt;{{ d.lastname[0] }}{{ d.name[0] }}/&gt;</a>
+    <ul class="nav-links">
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#skills">Compétences</a></li>
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="#experience">Expérience</a></li>
+      <li><a href="#education">Formation</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="burger" id="burger">&#9776;</button>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section id="hero">
+    <div class="hero-content">
+      <p class="hero-greeting">// Bonjour, je suis</p>
+      <h1 class="hero-name">
+        <span class="name-first">{{ d.name }}</span>
+        <span class="name-last">{{ d.lastname }}</span>
+      </h1>
+      <h2 class="hero-title">
+        <span class="typed-text" data-text="{{ d.title }}"></span>
+        <span class="cursor-blink">_</span>
+      </h2>
+      <p class="hero-tagline">{{ d.tagline }}</p>
+      <div class="hero-meta">
+        <span>📍 {{ d.location }}</span>
+        <span>📞 {{ d.phone }}</span>
+      </div>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">Voir mes projets</a>
+        <a href="#contact" class="btn-ghost">Me contacter</a>
+      </div>
+      <div class="hero-socials">
+        <a href="{{ d.github }}" target="_blank" title="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href="mailto:{{ d.email }}" title="Email">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="code-window">
+        <div class="code-header">
+          <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+          <span class="code-filename">profile.py</span>
+        </div>
+        <pre class="code-body"><code><span class="kw">class</span> <span class="cl">{{ d.lastname }}</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        self.prenom   = <span class="st">"{{ d.name }}"</span>
+        self.ecole    = <span class="st">"ESATIC"</span>
+        self.niveau   = <span class="st">"Licence 3 DASI"</span>
+        self.skills   = [
+            <span class="st">"Flutter"</span>, <span class="st">"Python"</span>,
+            <span class="st">"Kotlin"</span>, <span class="st">"PHP"</span>,
+            <span class="st">"Réseau"</span>
+        ]
+        self.dispo    = <span class="kw">True</span>
+
+    <span class="kw">def</span> <span class="fn">contact</span>(self):
+        <span class="kw">return</span> <span class="st">"{{ d.email }}"</span></code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── ABOUT ── -->
+  <section id="about" class="section">
+    <div class="container">
+      <h2 class="section-title"><span class="accent">01.</span> À propos</h2>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>{{ d.about }}</p>
+          <div class="about-extras">
+            <div class="extras-block">
+              <h4>Langues</h4>
+              {% for lang in d.languages %}
+              <p><strong>{{ lang.name }}</strong> — {{ lang.level }}</p>
+              {% endfor %}
+            </div>
+            <div class="extras-block">
+              <h4>Qualités</h4>
+              <div class="qualities">
+                {% for q in d.qualities %}
+                <span class="quality-tag">{{ q }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <a href="mailto:{{ d.email }}" class="btn-outline">M'envoyer un mail ✉</a>
+        </div>
+        <div class="about-photo reveal">
+          <div class="photo-frame">
+            <div class="photo-placeholder">
+              <span>{{ d.name[0] }}{{ d.lastname[0] }}</span>
+            </div>
+            <div class="photo-border"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SKILLS ── -->
+  <section id="skills" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title"><span class="accent">02.</span> Compétences</h2>
+      <div class="skills-grid">
+        {% for skill in d.skills %}
+        <div class="skill-item reveal">
+          <div class="skill-header">
+            <span class="skill-name">{{ skill.name }}</span>
+            <span class="skill-pct">{{ skill.level }}%</span>
+          </div>
+          <div class="skill-bar">
+            <div class="skill-fill" data-level="{{ skill.level }}"></div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS ── -->
+  <section id="projects" class="section">
+    <div class="container">
+      <h2 class="section-title"><span class="accent">03.</span> Projets</h2>
+      <div class="projects-grid">
+        {% for p in d.projects %}
+        <div class="project-card reveal">
+          <div class="project-top">
+            <span class="project-icon">{{ p.icon }}</span>
+            <div class="project-links">
+              {% if p.github %}<a href="{{ p.github }}" target="_blank" title="Code source">&#123; &#125;</a>{% endif %}
+              {% if p.demo %}<a href="{{ p.demo }}" target="_blank" title="Demo live">↗</a>{% endif %}
+            </div>
+          </div>
+          <h3 class="project-title">{{ p.title }}</h3>
+          <p class="project-desc">{{ p.description }}</p>
+          <div class="project-tags">
+            {% for tag in p.tags %}
+            <span class="tag">{{ tag }}</span>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EXPERIENCE ── -->
+  <section id="experience" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title"><span class="accent">04.</span> Expérience</h2>
+      <div class="timeline">
+        {% for xp in d.experience %}
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="xp-period">{{ xp.period }}</span>
+            <h3 class="xp-role">{{ xp.role }}</h3>
+            <p class="xp-company">{{ xp.company }}</p>
+            <p class="xp-desc">{{ xp.desc }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── EDUCATION ── -->
+  <section id="education" class="section">
+    <div class="container">
+      <h2 class="section-title"><span class="accent">05.</span> Formation</h2>
+      <div class="timeline">
+        {% for edu in d.education %}
+        <div class="timeline-item reveal">
+          <div class="timeline-dot edu-dot"></div>
+          <div class="timeline-content">
+            <span class="xp-period">{{ edu.period }}</span>
+            <h3 class="xp-role">{{ edu.degree }}</h3>
+            <p class="xp-company">{{ edu.school }}</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ── -->
+  <section id="contact" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title"><span class="accent">06.</span> Contact</h2>
+      <div class="contact-grid">
+        <div class="contact-info reveal">
+          <p>Tu as un projet ou une opportunité ? Discutons-en.</p>
+          <a href="mailto:{{ d.email }}" class="contact-email">{{ d.email }}</a>
+          <p class="contact-phone">📞 {{ d.phone }}</p>
+          <p class="contact-loc">📍 {{ d.location }}</p>
+        </div>
+        <form class="contact-form reveal" id="contactForm">
+          <div class="form-group">
+            <input type="text" id="fname" placeholder="Ton nom" required />
+          </div>
+          <div class="form-group">
+            <input type="email" id="femail" placeholder="Ton e-mail" required />
+          </div>
+          <div class="form-group">
+            <textarea id="fmessage" rows="5" placeholder="Ton message..." required></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Envoyer le message</button>
+          <p class="form-status" id="formStatus"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <p>Conçu &amp; développé par <span class="accent">{{ d.name }} {{ d.lastname }}</span> · 2025 · Abidjan, CI</p>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
